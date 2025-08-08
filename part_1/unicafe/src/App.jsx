@@ -16,9 +16,18 @@ const DisplayState = ({text, value}) => {
   )
 }
 
+const StatisticsLine = ({text, value}) => {
+  return(
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
+  )
+}
+
 const Statistics = ({obj}) => {
   console.log(obj)
-  
+
   if (obj.total === 0) {
     return (
       <div>
@@ -31,12 +40,16 @@ const Statistics = ({obj}) => {
   return (
     <div>
       <DisplayTitle text="statistics"/>
-      <p>good {obj.good}</p>
-      <p>neutral {obj.neutral}</p>
-      <p>bad {obj.bad}</p>
-      <p>all {obj.total}</p>
-      <p>average {obj.average}</p>
-      <p>positive {obj.positive}%</p>
+      <table>
+        <tbody>
+          <StatisticsLine text="good" value={obj.good}/>
+          <StatisticsLine text="neutral" value={obj.neutral}/>
+          <StatisticsLine text="bad" value={obj.bad}/>
+          <StatisticsLine text="total" value={obj.total}/>
+          <StatisticsLine text="average" value={obj.average}/>
+          <StatisticsLine text="positive" value={obj.positive+"%"}/>
+        </tbody>
+      </table>
     </div>
   )
 }
