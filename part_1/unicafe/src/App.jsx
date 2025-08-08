@@ -16,6 +16,21 @@ const DisplayState = ({text, value}) => {
   )
 }
 
+const Statistics = ({obj}) => {
+  console.log(obj)
+  return (
+    <div>
+      <DisplayTitle text="statistics"/>
+      <p>good {obj.good}</p>
+      <p>neutral {obj.neutral}</p>
+      <p>bad {obj.bad}</p>
+      <p>all {obj.total}</p>
+      <p>average {obj.average}</p>
+      <p>positive {obj.positive}%</p>
+    </div>
+  )
+}
+
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
@@ -25,28 +40,30 @@ const App = () => {
   const [average, setAverage] = useState(0)
   const [positive, setPositive] = useState(0)
 
-  const updateStatistics = () => {
+  const updateStatistics = (newGood, newBad) => {
     let newTotal = total + 1
+    let newAverage = (newGood - newBad)/newTotal
+    let newPositive = (newGood/newTotal) * 100
     setTotal(newTotal)
-    let newAverage = (good - bad)/newTotal
     setAverage(newAverage)
-    let newPositive = (good/newTotal) * 100
     setPositive(newPositive)
   }
 
   const increaseGood = () => {
-    setGood(good + 1)
-    updateStatistics()
+    let newGood = good + 1
+    setGood(newGood)
+    updateStatistics(newGood, bad)
   }
   
   const increaseNeutral = () => {
     setNeutral(neutral + 1)
-    updateStatistics()
+    updateStatistics(good, bad)
   }
   
   const increaseBad = () => {
-    setBad(bad + 1)
-    updateStatistics()
+    let newBad = bad + 1
+    setBad(newBad)
+    updateStatistics(good, newBad)
   }
 
   console.log(total)
@@ -58,13 +75,7 @@ const App = () => {
       <Button handleClick={increaseGood} text="Good"/>
       <Button handleClick={increaseNeutral} text="Neutral"/>
       <Button handleClick={increaseBad} text="Bad"/>
-      <DisplayTitle text="statistics"/>
-      <DisplayState text="Good" value={good}/>
-      <DisplayState text="Neutral" value={neutral}/>
-      <DisplayState text="Bad" value={bad}/>
-      <DisplayState text="All" value={total}/>
-      <DisplayState text="Average" value={average}/>
-      <DisplayState text="Positive" value={positive+"%"}/>
+      <Statistics obj={{good:good, neutral:neutral, bad:bad, total:total, average:average, positive:positive}}/>
     </div>
   )
 }
