@@ -18,6 +18,16 @@ const DisplayState = ({text, value}) => {
 
 const Statistics = ({obj}) => {
   console.log(obj)
+  
+  if (obj.total === 0) {
+    return (
+      <div>
+        <DisplayTitle text="statistics"/>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
+
   return (
     <div>
       <DisplayTitle text="statistics"/>
