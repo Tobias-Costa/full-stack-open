@@ -8,12 +8,10 @@ const Button = ({handleClick, text}) => {
   )
 }
 
-const DisplayState = ({good, neutral, bad}) => {
+const DisplayState = ({text, value}) => {
   return (
     <div>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
+      <p>{text} {value}</p>
     </div>
   )
 }
@@ -23,10 +21,37 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-  const increaseGood = () => setGood(good + 1)
-  const increaseNeutral = () => setNeutral(neutral + 1)
-  const increaseBad = () => setBad(bad + 1)
+  const [total, setTotal] = useState(0)
+  const [average, setAverage] = useState(0)
+  const [positive, setPositive] = useState(0)
 
+  const updateStatistics = () => {
+    let newTotal = total + 1
+    setTotal(newTotal)
+    let newAverage = (good - bad)/newTotal
+    setAverage(newAverage)
+    let newPositive = (good/newTotal) * 100
+    setPositive(newPositive)
+  }
+
+  const increaseGood = () => {
+    setGood(good + 1)
+    updateStatistics()
+  }
+  
+  const increaseNeutral = () => {
+    setNeutral(neutral + 1)
+    updateStatistics()
+  }
+  
+  const increaseBad = () => {
+    setBad(bad + 1)
+    updateStatistics()
+  }
+
+  console.log(total)
+  console.log(average)
+  console.log(positive)
   return (
     <div>
       <DisplayTitle text="give feedback"/>
@@ -34,7 +59,12 @@ const App = () => {
       <Button handleClick={increaseNeutral} text="Neutral"/>
       <Button handleClick={increaseBad} text="Bad"/>
       <DisplayTitle text="statistics"/>
-      <DisplayState good={good} neutral={neutral} bad={bad}/>
+      <DisplayState text="Good" value={good}/>
+      <DisplayState text="Neutral" value={neutral}/>
+      <DisplayState text="Bad" value={bad}/>
+      <DisplayState text="All" value={total}/>
+      <DisplayState text="Average" value={average}/>
+      <DisplayState text="Positive" value={positive+"%"}/>
     </div>
   )
 }
