@@ -1,4 +1,4 @@
-# Full Stack Open -> 1.6-1.14 Exercises: Unicafe
+# Full Stack Open -> 1.6-1.11 Exercises: Unicafe
 
 ## Template: React + Vite
 
